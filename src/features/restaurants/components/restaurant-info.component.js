@@ -24,15 +24,15 @@ import {
 
 function RestaurantInfo({ restaurant = {} }) {
   const {
-    name = "Some Restaurant",
-    icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
+    name,
+    icon,
     photos = [
       "https://humanwindow.com/wp-content/uploads/fasting-large-min.jpg",
     ],
-    address = "100 rectals",
+    address,
     isOpenNow = true,
     rating = 4,
-    isClosedTemporarily = true,
+    isClosedTemporarily,
   } = restaurant;
 
   const ratingArray = Array.from(
