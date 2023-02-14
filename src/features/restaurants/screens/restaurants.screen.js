@@ -4,12 +4,11 @@ import { useState } from "react";
 import {
   StatusBar,
   SafeAreaView,
-  StyleSheet,
-  Text,
   View,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
-import { Searchbar } from "react-native-paper";
+
 import RestaurantInfo from "../components/restaurant-info.component";
 import styled from "styled-components";
 import { RestaurantsContext } from "../../../services/restaurants/mock/restaurants.context";
@@ -17,6 +16,7 @@ import {
   ActivityIndicator,
   MD2Colors,
 } from "react-native-paper";
+import Search from "../components/search.component";
 
 const isAndroid = Platform.OS === "android";
 
@@ -24,10 +24,7 @@ const Container = styled(SafeAreaView)`
   flex: 1;
   margin-top: ${isAndroid ? StatusBar.currentHeight : 0}px;
 `;
-const SearchContainer = styled(View)`
-  justify-content: center;
-  padding: ${(props) => props.theme.space[2]};
-`;
+
 const RestaurantListContainer = styled(View)`
   flex: 1;
   padding: ${(props) => props.theme.space[2]};
@@ -35,14 +32,11 @@ const RestaurantListContainer = styled(View)`
     props.theme.colors.bg.secondary};
 `;
 
-function RestaurantsScreen() {
+function RestaurantsScreen({ navigation }) {
   const { isLoading, error, restaurants } = useContext(
     RestaurantsContext
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const onChangeSearch = (query) => setSearchQuery(query);
   return (
     <Container>
       {isLoading && (
@@ -60,18 +54,19 @@ function RestaurantsScreen() {
           />
         </View>
       )}
-      <SearchContainer>
-        <Searchbar
-          placeholder='Search'
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-        />
-      </SearchContainer>
+      <Search />
 
       <FlatList
         data={restaurants}
         renderItem={({ item }) => (
-          <RestaurantInfo restaurant={item} />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("RestaurantDetail", {
+                restaurant: item,
+              })
+            }>
+            <RestaurantInfo restaurant={item} />
+          </TouchableOpacity>
         )}
         keyExtractor={(item) => item.name}
         contentContainerStyle={{ padding: 16 }}

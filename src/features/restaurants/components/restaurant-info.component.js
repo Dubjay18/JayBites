@@ -33,6 +33,7 @@ function RestaurantInfo({ restaurant = {} }) {
     isOpenNow = true,
     rating = 4,
     isClosedTemporarily,
+    placeId,
   } = restaurant;
 
   const ratingArray = Array.from(
@@ -47,9 +48,9 @@ function RestaurantInfo({ restaurant = {} }) {
         </PaperText>
         <IconRow>
           <Row>
-            {ratingArray.map((e, i) => (
+            {ratingArray.map((_, i) => (
               <SvgXml
-                key={i}
+                key={`star-${placeId}-${i}`}
                 xml={star}
                 width={20}
                 height={20}
